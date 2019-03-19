@@ -1,0 +1,10 @@
+*.pyc
+log/*
+*.log
+*.swp
+*uwsgi_control
+conf/django_setting.py
+uwsgi.ini
+uwsgi.ini.*
+supervise/status/
+supervise/lock/
