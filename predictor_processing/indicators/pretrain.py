@@ -1,0 +1,103 @@
+import pandas as pd
+import numpy as np
+import csv
+import os
+from trendline import *
+
+#清空原有数据
+path = '../../result/predictor/'
+if os.path.exists(path):
+    ls = os.listdir(path)
+    if len(ls) > 0:
+        for i in ls:
+            os.remove(path+i)
+else:
+    os.mkdir(path)
+
+path = '../../result/stocks'
+files = [i[2] for i in os.walk(path)][0]
+
+for i, file in enumerate(files):
+    try:
+        filename = path + '/' + file
+        stocks = pd.read_csv(filename,encoding='utf_8_sig')
+        stocks = stocks.sort_values(['trade_date'])
+        # ema
+        new_stocks = ema(stocks)
+        # vrsi
+        new_stocks = pd.merge(new_stocks,vrsi(stocks,n=10),how='left',on='trade_date')
+        # ma_10
+        #new_stocks = pd.merge(new_stocks,ma(stocks,n=10),how='left',on='trade_date')
+        # ma_5
+        #new_stocks = pd.merge(new_stocks,ma(stocks,n=5),how='left',on='trade_date')
+        # macd
+        new_stocks = pd.merge(new_stocks,macd(stocks),how='left',on='trade_date')
+        # kdj
+        new_stocks = pd.merge(new_stocks,kdj(stocks),how='left',on='trade_date')
+        # rsi
+        new_stocks = pd.merge(new_stocks,rsi(stocks),how='left',on='trade_date')
+        # boll
+        new_stocks = pd.merge(new_stocks,boll(stocks),how='left',on='trade_date')
+        # wr
+        new_stocks = pd.merge(new_stocks,wr(stocks),how='left',on='trade_date')
+        # bias_20
+        new_stocks = pd.merge(new_stocks,bias(stocks,n=20),how='left',on='trade_date')
+        # bias_10
+        new_stocks = pd.merge(new_stocks,bias(stocks,n=10),how='left',on='trade_date')
+        # bias_5
+        new_stocks = pd.merge(new_stocks,bias(stocks,n=5),how='left',on='trade_date')
+        # asi
+        new_stocks = pd.merge(new_stocks,asi(stocks),how='left',on='trade_date')
+        # mi
+        new_stocks = pd.merge(new_stocks,mi(stocks),how='left',on='trade_date')
+        # # jdqs
+        #new_stocks = pd.merge(new_stocks,jdqs(stocks),how='left',on='trade_date')
+        # # up_n
+        new_stocks = pd.merge(new_stocks,up_n(stocks),how='left',on='trade_date')
+        # down_n
+        new_stocks = pd.merge(new_stocks,down_n(stocks),how='left',on='trade_date')
+        # vr_rate
+        new_stocks = pd.merge(new_stocks,vr_rate(stocks),how='left',on='trade_date')
+        # arbr
+        new_stocks = pd.merge(new_stocks,arbr(stocks),how='left',on='trade_date')
+        # dpo
+        new_stocks = pd.merge(new_stocks,dpo(stocks),how='left',on='trade_date')
+        # trix
+        new_stocks = pd.merge(new_stocks,trix(stocks),how='left',on='trade_date')
+        # mtm
+        new_stocks = pd.merge(new_stocks,mtm(stocks),how='left',on='trade_date')
+        # obv
+        new_stocks = pd.merge(new_stocks,obv(stocks),how='left',on='trade_date')
+        # cci
+        new_stocks = pd.merge(new_stocks,cci(stocks),how='left',on='trade_date')
+        # mfi
+        new_stocks = pd.merge(new_stocks,mfi(stocks),how='left',on='trade_date')
+        # adtm
+        new_stocks = pd.merge(new_stocks,adtm(stocks),how='left',on='trade_date')
+        # micd
+        new_stocks = pd.merge(new_stocks,micd(stocks),how='left',on='trade_date')
+        # rc
+        new_stocks = pd.merge(new_stocks,rc(stocks),how='left',on='trade_date')
+        # rccd
+        new_stocks = pd.merge(new_stocks,rccd(stocks),how='left',on='trade_date')
+        # srmi
+        new_stocks = pd.merge(new_stocks,srmi(stocks),how='left',on='trade_date')
+        # zdzb
+        new_stocks = pd.merge(new_stocks,zdzb(stocks),how='left',on='trade_date')
+        # atr
+        new_stocks = pd.merge(new_stocks,atr(stocks),how='left',on='trade_date')
+        # mass
+        new_stocks = pd.merge(new_stocks,mass(stocks),how='left',on='trade_date')
+        # vhf
+        new_stocks = pd.merge(new_stocks,vhf(stocks),how='left',on='trade_date')
+        # cvlt
+        new_stocks = pd.merge(new_stocks,cvlt(stocks),how='left',on='trade_date')
+        # others
+        new_stocks = pd.merge(new_stocks,stocks[['trade_date','turnover_rate','pe','ps','circ_mv','ts_code']],how='left',on='trade_date')
+        new_stocks.replace('', np.nan, inplace=True)
+        new_stocks.dropna(inplace=True)
+        new_file = '../../result/predictor/' + file
+        new_stocks.to_csv(new_file,index=False,encoding='utf_8_sig')
+        print('{0} is pretrain successfully!'.format(file))
+    except Exception as e:
+        raise e

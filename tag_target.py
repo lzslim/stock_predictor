@@ -3,10 +3,10 @@ import os
 import pandas as pd
 from util import *
 
-PERIOD = 11
+PERIOD = 8
 path = 'input/daily'
 files = [i[2] for i in os.walk(path)][0]
-for i, file in enumerate(files[:-12]):
+for i, file in enumerate(files[:-9]):
     basic_filename = path + '/' + file
     basic_stocks = pd.read_csv(basic_filename,encoding='utf_8_sig')
     columns = basic_stocks.columns.tolist()

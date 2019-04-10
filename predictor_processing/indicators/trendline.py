@@ -13,7 +13,6 @@ import pandas as pd
 import numpy as np
 import itertools
 
-ind_all = pd.read_csv('../../input/ind_all.csv')
 
 def ma(df, n=10):
     """
@@ -797,8 +796,7 @@ def dptb(df, n=7):
     大盘同步指标	dptb(7)
     DPTB=（统计N天中个股收盘价>开盘价，且指数收盘价>开盘价的天数或者个股收盘价<开盘价，且指数收盘价<开盘价）/N
     """
-    #ind = ts.get_k_data("sh000001", start=df.trade_date.iloc[0], end=df.trade_date.iloc[-1])
-    ind = ind_all[(ind_all['trade_date'] > df.trade_date.iloc[-1]) & (ind_all['trade_date'] <= df.trade_date.iloc[0])]
+    ind = ts.get_k_data("sh000001", start=df.trade_date.iloc[0], end=df.trade_date.iloc[-1])
     sd = df.copy()
     sd.set_index('trade_date', inplace=True)  # 可能出现停盘等情况，所以将trade_date设为index
     ind.set_index('trade_date', inplace=True)
@@ -818,8 +816,7 @@ def jdqs(df, n=20):
     阶段强势指标	jdqs(20)
     JDQS=（统计N天中个股收盘价>开盘价，且指数收盘价<开盘价的天数）/（统计N天中指数收盘价<开盘价的天数）
     """
-    #ind = ts.get_k_data("sh000001", start=df.trade_date.iloc[0], end=df.trade_date.iloc[-1])
-    ind = ind_all[(ind_all['trade_date'] > df.trade_date.iloc[-1]) & (ind_all['trade_date'] <= df.trade_date.iloc[0])]
+    ind = ts.get_k_data("sh000001", start=df.trade_date.iloc[0], end=df.trade_date.iloc[-1])
     sd = df.copy()
     sd.set_index('trade_date', inplace=True)   # 可能出现停盘等情况，所以将trade_date设为index
     ind.set_index('trade_date', inplace=True)
@@ -841,8 +838,7 @@ def jdrs(df, n=20):
     阶段弱势指标	jdrs(20)
     JDRS=（统计N天中个股收盘价<开盘价，且指数收盘价>开盘价的天数）/（统计N天中指数收盘价>开盘价的天数）
     """
-    #ind = ts.get_k_data("sh000001", start=df.trade_date.iloc[0], end=df.trade_date.iloc[-1])
-    ind = ind_all[(ind_all['trade_date'] > df.trade_date.iloc[-1]) & (ind_all['trade_date'] <= df.trade_date.iloc[0])]
+    ind = ts.get_k_data("sh000001", start=df.trade_date.iloc[0], end=df.trade_date.iloc[-1])
     sd = df.copy()
     sd.set_index('trade_date', inplace=True)
     ind.set_index('trade_date', inplace=True)

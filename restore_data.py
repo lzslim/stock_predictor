@@ -17,4 +17,16 @@ for i, file in enumerate(files[:-12]):
     if 'pct_chg_x' in columns:
         basic_stocks.rename(columns={'pct_chg_x': 'pct_chg'}, inplace=True)
     basic_stocks.to_csv(basic_filename,index=False,encoding='utf_8_sig')
-    print('{0} is tag successfully!'.format(file))
+    print('{0} is restore successfully!'.format(file))
+
+
+# for i, file in enumerate(files):
+#     basic_filename = path + '/' + file
+#     basic_stocks = pd.read_csv(basic_filename,encoding='utf_8_sig')
+#     columns = basic_stocks.columns.tolist()
+#     if 'target_x' in columns:
+#         basic_stocks.drop(['target_x'],axis=1,inplace=True)
+#     if 'target_y' in columns:
+#         basic_stocks.rename(columns={'target_y': 'target'}, inplace=True)
+#     basic_stocks.to_csv(basic_filename,index=False,encoding='utf_8_sig')
+#     print('{0} is tag successfully!'.format(file))
